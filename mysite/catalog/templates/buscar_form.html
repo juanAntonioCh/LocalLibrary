@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+        {% if message.tags == 'error' %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% else %}
+            <div class="alert alert-{{ message.tags }}" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    <h1>Buscar</h1>
+
+    <form action="" method="post" style="max-width: 400px;">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" class="btn btn-primary btn-lg" value="Buscar" style="margin-bottom: 40px;"/>
+    </form>
+    
+    <ul>
+        {% for libro in libros %}
+            {% if libro.status == 'a'%}
+                <li>{{ libro }}({{ libro.due_back }} - {{ libro.borrower }} - [{{ libro.status }}]) - <a href="{% url 'prestar-form' libro.pk %}">Prestar</a></li>
+            {% elif libro.status == 'o' %}
+            	<li>{{ libro }}({{ libro.due_back }} - {{ libro.borrower }} - [{{ libro.status }}]) - <a href="{% url 'renovar-form' libro.pk %}">Renovar</a> - 
+            	<a href="{% url 'devolver' libro.pk %}">Devolver</a></li>
+            {% endif %}
+    	{% endfor %}
+    </ul>
+    
+    
+
+{% endblock %}

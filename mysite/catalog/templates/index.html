@@ -1,0 +1,63 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Local Library Home</h1>
+
+<p>Welcome to <em>LocalLibrary</em>, a very basic Django website developed as a tutorial example on the Mozilla
+    Developer Network.</p>
+
+<h2>Dynamic content</h2>
+
+<p>The library has the following record counts:</p>
+<ul>
+    <li><strong>Books:</strong> {{ num_books }}</li>
+    <li><strong>Copies:</strong> {{ num_instances }}</li>
+    <li><strong>Copies available:</strong> {{ num_instances_available }}</li>
+    <li><strong>Authors:</strong> {{ num_authors }}</li>
+    <li><strong>Generos:</strong> {{ num_generos }}</li>
+    <li><strong>Libros que contienen la palabra "el":</strong> {{ num_libros }}</li>
+    <p>You have visited this page {{ num_visits }}{% if num_visits == 1 %} time{% else %} times{% endif %}.</p>
+</ul>
+
+
+{% if messages %}
+{% for message in messages %}
+
+    {% if message.tags == 'error' %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% else %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+
+{% endfor %}
+{% endif %}
+
+{% for elemento in lista %}
+    <p> {{elemento}}</p>
+{% endfor %}
+
+<p><strong>Registros de libros con sus autores</strong></p>
+
+{# comentario para el motor de las templates #}
+{% comment %}
+
+{% endcomment %}
+
+ <p><strong>LIBROS</strong></p>
+{% for elemento in libros %}
+    <p><a href="{% url 'probando' elemento.id %}">{{elemento}} {{elemento.author.first_name}}/catalog/probando/{{elemento.id}}</a></p>
+{% endfor %}
+
+<p><strong>AUTORES</strong></p>
+{% for elemento in libros %}
+    <p><a href="{% url 'autores' elemento.author.id %}">Libro:{{elemento.title}} autor:{{ elemento.author.first_name}}</a></p>
+{% endfor %}
+
+{% endblock %}
+
+
+

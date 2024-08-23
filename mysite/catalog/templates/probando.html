@@ -1,0 +1,28 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>Libro</h1>
+    
+<h3>Titulo: {{libro}}</h3>
+<h3>Autor: {{libro.author}}</h3>
+<h3>Resumen: {{libro.summary}}</h3>
+<h3>Generos: {{libro.display_genre}}</h3>
+
+
+{% comment %}
+
+{% for elemento in libros%}
+    {% if elemento.id == id %}
+        <p>Hola, estas en la vista del libro con id: {{elemento.id}}</p>
+        <h1>{{elemento.title}}</h1>
+        <h2>Autor: {{elemento.author.first_name}} {{elemento.author.last_name}}</h2>
+        <h2>Resumen:</h2>
+        <h3>{{elemento.summary}}</h3>
+    {% endif %}
+
+{% endfor %}
+
+{% endcomment %}
+
+
+
+{% endblock %}

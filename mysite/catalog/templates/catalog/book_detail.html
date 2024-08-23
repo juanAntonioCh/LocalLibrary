@@ -1,0 +1,61 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Title: {{ book.title }}</h1>
+
+  <p><strong>Autor:</strong> <a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a></p> <!-- enlace de detalle del autor aún no definido -->
+  <p><strong>Resumen:</strong> {{ book.summary }}</p>
+  <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+  <p><strong>Idioma:</strong> {{ book.language }}</p>
+  <p><strong>Genero:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+  
+  <div class="row">
+    <div class="col-4">
+      <h3><u>Portada</u></h3>
+      {% if book.portada %}
+      <img src="{{ book.portada.url }}" alt="{{ book.title }}">
+      {% else %}
+      <p>No hay imagen disponible</p>
+      {% endif %}
+    </div>
+
+    <div class="col-4">
+      <h3><u>Video</u></h3>
+      {% if book.video %}
+      <video src="{{ book.video.url }}" width="400" height="300" controls></video>
+      {% else %}
+      <p>No hay video disponible</p>
+      {% endif %}
+    </div>
+
+    <div class="col-4">
+      <h3><u>Pdf</u></h3>
+      {% if book.pdf %}
+      <iframe src="{{ book.pdf.url }}" width="600" height="650" style="border: none;"></iframe>
+      {% else %}
+      <p>No hay pdf disponible</p>
+      {% endif %}
+    </div>
+
+  </div>
+
+  <div style="margin-left:20px;margin-top:20px">
+    <h4>Copias</h4>
+
+    {% for copy in book.bookinstance_set.all %}
+    <hr>
+    <p class="{% if copy.status == 'a' %}text-success{% elif copy.status == 'm' %}text-danger{% else %}text-warning{% endif %}">{{ copy.get_status_display }}</p>
+    {% if copy.status != 'a' %}<p><strong>Pendiente de devolución:</strong> {{copy.due_back}}</p>{% endif %}
+    <p><strong>Imprimir:</strong> {{copy.imprint}}</p>
+    <p class="text-muted"><strong>Id:</strong> {{copy.id}}</p>
+    {% endfor %}
+    
+  </div>
+
+  <div>
+    <form method="post" action="{% url 'pdf' book.pk %}">
+      {% csrf_token %}
+      <input type="submit" class="btn btn-primary btn-lg" value="Generar PDF"/>
+    </form>
+  </div>
+{% endblock %}

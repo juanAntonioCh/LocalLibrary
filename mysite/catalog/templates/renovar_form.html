@@ -1,0 +1,47 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    {% if messages %}
+    {% for message in messages %}
+
+    {% if message.tags == 'error' %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% else %}
+        <div class="alert alert-{{ message.tags }}" role="alert">
+            {{ message }}
+        </div>
+    {% endif %}
+
+    {% endfor %}
+    {% endif %}
+
+
+    <h1>Renovar: {{ book_inst.book }}</h1>
+    
+    <p>Borrower: {{ book_inst.borrower }}</p>
+    <p>Due date: {{ book_inst.due_back }}</p>
+    <p>Veces renovado: {{ num_renovaciones }}</p>
+
+    <form action="" method="post" style="max-width: 400px;">
+        {% csrf_token %}
+        {{ form.renewal_date.label_tag }} 
+        {{ form.renewal_date }}
+        {{form.renewal_date.help_text}}
+            
+        {% if form.renewal_date.errors %}
+            {% for error in form.renewal_date.errors %}
+                <span class="text-danger">{{ error }}</span>
+            {% endfor%}
+        {% endif %}
+        <!-- {{ form }} -->
+       
+        
+        <input type="submit" class="btn btn-primary btn-lg" value="Renew" style="margin-bottom: 40px; margin-bottom: 60px"/>
+    </form>
+   
+    
+    
+
+{% endblock %}

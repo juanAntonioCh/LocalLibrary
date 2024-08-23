@@ -1,0 +1,12 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Formulario Correo</h1>
+
+    <form action="" method="post" enctype="multipart/form-data" style="max-width: 400px;">
+        {% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" name="enviar" class="btn btn-primary btn-lg" value="Enviar Correo" style="margin-bottom: 40px;"/>
+    </form>
+
+{% endblock %}

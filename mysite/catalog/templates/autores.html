@@ -1,0 +1,10 @@
+{% extends "base_generic.html" %}
+{% block content %}
+<h1>Autor</h1>
+    
+<h3>Nombre: {{autor.first_name}}</h3>
+<h3>Apellidos: {{autor.last_name}}</h3>
+<h3>Fecha nacimiento: {{autor.date_of_birth}}</h3>
+<h3>Fecha muerte: {{autor.date_of_death}}</h3>
+
+{% endblock %}

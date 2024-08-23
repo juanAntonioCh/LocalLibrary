@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+{% block content %}
+
+    {% if messages %}
+    {% for message in messages %}
+      <div class="alert alert-danger" role="alert">
+        {{ message }}
+      </div>
+    {% endfor %}
+    {% endif %}
+
+    <h1>Renew: {{bookinst.book.title}}</h1>
+    <p>Borrower: {{bookinst.borrower}}</p>
+    <p {% if bookinst.is_overdue %} class="text-danger"{% endif %}>Due date: {{bookinst.due_back}}</p>
+
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <!-- {{ form.renewal_date.label_tag }} 
+            {{ form.renewal_date }}
+            {{form.renewal_date.help_text}}
+            
+            {% if form.renewal_date.errors %}
+              {% for error in form.renewal_date.errors %}
+                <span class="text-danger">{{ error }}</span>
+              {% endfor%}
+            {% endif %} -->
+
+            {{ form }}
+
+            {% for field in form %}
+              {% for error in field.errors %}
+                <!-- <div class="alert alert-danger"> -->
+                <div>
+                  {{ error }}
+                </div>
+              {% endfor %}
+            {% endfor %}
+            
+        </div>
+        <input type="submit" class="btn btn-primary btn-lg" value="Submit"/>
+    </form>
+
+{% endblock %}

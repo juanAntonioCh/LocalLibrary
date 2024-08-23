@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ book.title}}</title>
+</head>
+
+<body>
+    <h1>Titulo: {{ book.title}}</h1>
+    <h2>Autor: {{ book.author}}</h2>
+
+    <hr>
+    <p><strong>Resumen:</strong> {{ book.summary }}</p>
+    <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+    <p><strong>Idioma:</strong> {{ book.language }}</p>
+    <p><strong>Genero:</strong> {% for genre in book.genre.all %} {{ genre }}{% if not forloop.last %}, {% endif %}{%endfor %}</p>
+    <hr>
+
+    <h3><u>Portada</u></h3>
+    {% if book.portada %}
+    <img src="{{ book.portada.url }}" alt="{{ book.portada.url }}">
+    {% else %}
+    <p>No hay imagen disponible</p>
+    {% endif %}
+
+    <h4>Copias</h4>
+    {% for copy in book.bookinstance_set.all %}
+    <p>{{ copy.get_status_display }}</p>
+    {% if copy.status != 'a' %}<p><strong>Pendiente de devolución:</strong> {{copy.due_back}}</p>{% endif %}
+    <p><strong>Imprimir:</strong> {{copy.imprint}}</p>
+    <p><strong>Id:</strong> {{copy.id}}</p>
+    {% endfor %}
+
+</body>
+
+</html>
